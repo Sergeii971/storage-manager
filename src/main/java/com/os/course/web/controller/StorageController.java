@@ -5,6 +5,7 @@ import com.os.course.model.dto.StorageDto;
 import com.os.course.service.StorageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +30,7 @@ public class StorageController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public StorageDto save(@RequestBody StorageDto storageDto) {
         return storageService.save(storageDto);
     }
@@ -42,6 +44,7 @@ public class StorageController {
     @RequestMapping(method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
+    @PreAuthorize("hasRole('ADMIN')")
     public DeletedFilesDto remove(@RequestParam(value = "id") @Max(200) String ids) {
         return storageService.delete(ids);
     }
